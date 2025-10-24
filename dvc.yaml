@@ -1,0 +1,48 @@
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+      - src/preprocess.py
+      - data/raw/MixedWM38.npz
+    params:
+      - data
+      - preprocessing
+    outs:
+      - data/processed/train_images.npy
+      - data/processed/train_labels.npy
+      - data/processed/val_images.npy
+      - data/processed/val_labels.npy
+      - data/processed/test_images.npy
+      - data/processed/test_labels.npy
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/processed/train_images.npy
+      - data/processed/train_labels.npy
+      - data/processed/val_images.npy
+      - data/processed/val_labels.npy
+    params:
+      - model
+      - training
+      - data
+    outs:
+      - models/best_model.h5  # Only require best_model
+    metrics:
+      - metrics/training_metrics.json:
+          cache: false
+
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/best_model.h5  # Change from last_model.h5 to best_model.h5
+      - data/processed/test_images.npy
+      - data/processed/test_labels.npy
+    metrics:
+      - metrics/test_metrics.json:
+          cache: false
+    plots:
+      - plots/classification_report.json:
+          cache: false

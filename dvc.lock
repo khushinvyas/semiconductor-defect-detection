@@ -1,0 +1,125 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/MixedWM38.npz
+      hash: md5
+      md5: e7c7ec2b787a0dbf0dfcab98ff04d436
+      size: 412387226
+    - path: src/preprocess.py
+      hash: md5
+      md5: e6a2f27999714f41257edf9915efe15b
+      size: 2721
+    params:
+      params.yaml:
+        data:
+          test_size: 0.2
+          val_size: 0.15
+          random_state: 42
+        preprocessing:
+          normalize: true
+    outs:
+    - path: data/processed/test_images.npy
+      hash: md5
+      md5: b68100083a8c73a41e9123745bf99b4e
+      size: 246734720
+    - path: data/processed/test_labels.npy
+      hash: md5
+      md5: 089b12d34cf2aab0b0ad2cf0b8772a73
+      size: 243456
+    - path: data/processed/train_images.npy
+      hash: md5
+      md5: df1c79933ce1504104f604d3b2b67138
+      size: 801757760
+    - path: data/processed/train_labels.npy
+      hash: md5
+      md5: 39e3e239149795dbfdc1fac9bc4d9b3e
+      size: 790816
+    - path: data/processed/val_images.npy
+      hash: md5
+      md5: 810b5592ca4678b6f5a47fea0e144b88
+      size: 185018624
+    - path: data/processed/val_labels.npy
+      hash: md5
+      md5: 5fe85277711b942f644b2676b7569d21
+      size: 182592
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/train_images.npy
+      hash: md5
+      md5: df1c79933ce1504104f604d3b2b67138
+      size: 801757760
+    - path: data/processed/train_labels.npy
+      hash: md5
+      md5: 39e3e239149795dbfdc1fac9bc4d9b3e
+      size: 790816
+    - path: data/processed/val_images.npy
+      hash: md5
+      md5: 810b5592ca4678b6f5a47fea0e144b88
+      size: 185018624
+    - path: data/processed/val_labels.npy
+      hash: md5
+      md5: 5fe85277711b942f644b2676b7569d21
+      size: 182592
+    - path: src/train.py
+      hash: md5
+      md5: 45e9bc4b4ad24005c90cec10628b7b01
+      size: 3980
+    params:
+      params.yaml:
+        data:
+          test_size: 0.2
+          val_size: 0.15
+          random_state: 42
+        model:
+          name: custom_cnn
+          input_shape:
+          - 52
+          - 52
+          - 1
+          num_classes: 8
+          dropout_rate: 0.5
+        training:
+          batch_size: 32
+          epochs: 50
+          learning_rate: 0.0001
+          patience: 10
+    outs:
+    - path: metrics/training_metrics.json
+      hash: md5
+      md5: 26c9bf9e5c34dcf412d9d24f63292905
+      size: 266
+    - path: models/best_model.h5
+      hash: md5
+      md5: 851f6ab1621096d260b9ebf984ebcdd0
+      size: 7905448
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/processed/test_images.npy
+      hash: md5
+      md5: b68100083a8c73a41e9123745bf99b4e
+      size: 246734720
+    - path: data/processed/test_labels.npy
+      hash: md5
+      md5: 089b12d34cf2aab0b0ad2cf0b8772a73
+      size: 243456
+    - path: models/best_model.h5
+      hash: md5
+      md5: 851f6ab1621096d260b9ebf984ebcdd0
+      size: 7905448
+    - path: src/evaluate.py
+      hash: md5
+      md5: 4e36104e6a4d9630932312c7af7d9944
+      size: 8830
+    outs:
+    - path: metrics/test_metrics.json
+      hash: md5
+      md5: da1ee185725383d4982fe7b0f7120292
+      size: 291
+    - path: plots/classification_report.json
+      hash: md5
+      md5: 0fa8027acd0beb169f8d3f10c0ae9c03
+      size: 1785

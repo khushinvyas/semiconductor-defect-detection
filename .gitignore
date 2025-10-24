@@ -1,0 +1,22 @@
+# Data
+data/processed/
+data/raw/
+
+# Models
+models/
+
+# Metrics and plots
+metrics/
+plots/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+
+# DVC
+.dvc/

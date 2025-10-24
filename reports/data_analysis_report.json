@@ -1,0 +1,21 @@
+{
+  "dataset_info": {
+    "total_samples": 38015,
+    "image_shape": [
+      52,
+      52
+    ],
+    "num_classes": 8,
+    "class_distribution": [
+      13000,
+      12000,
+      13000,
+      12000,
+      18000,
+      149,
+      19000,
+      866
+    ]
+  },
+  "preprocessing": {
+    "normalization_required": 
