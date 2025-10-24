@@ -80,20 +80,20 @@ stages:
           - 52
           - 1
           num_classes: 8
-          dropout_rate: 0.5
+          dropout_rate: 0.3
         training:
-          batch_size: 32
+          batch_size: 64
           epochs: 50
-          learning_rate: 0.0001
+          learning_rate: 0.0005
           patience: 10
     outs:
     - path: metrics/training_metrics.json
       hash: md5
-      md5: 26c9bf9e5c34dcf412d9d24f63292905
-      size: 266
+      md5: a15cac5e3ccac1ddb46b26c74be260b4
+      size: 267
     - path: models/best_model.h5
       hash: md5
-      md5: 851f6ab1621096d260b9ebf984ebcdd0
+      md5: 2116681355e62650f4d5c22822f443c7
       size: 7905448
   evaluate:
     cmd: python src/evaluate.py
@@ -108,7 +108,7 @@ stages:
       size: 243456
     - path: models/best_model.h5
       hash: md5
-      md5: 851f6ab1621096d260b9ebf984ebcdd0
+      md5: 2116681355e62650f4d5c22822f443c7
       size: 7905448
     - path: src/evaluate.py
       hash: md5
@@ -117,9 +117,9 @@ stages:
     outs:
     - path: metrics/test_metrics.json
       hash: md5
-      md5: da1ee185725383d4982fe7b0f7120292
-      size: 291
+      md5: dceb0eb48e5cd3e8113b399979c40396
+      size: 292
     - path: plots/classification_report.json
       hash: md5
-      md5: 0fa8027acd0beb169f8d3f10c0ae9c03
-      size: 1785
+      md5: d3de888dcf636c41f5f1a6cd27392cfc
+      size: 1784

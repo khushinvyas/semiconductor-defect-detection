@@ -1,13 +1,16 @@
 model:
-  name: "custom_cnn"
-  input_shape: [52, 52, 1]  # Changed from [52, 52, 3]
+  name: custom_cnn
+  input_shape:              # Changed from [52, 52, 3]
+  - 52
+  - 52
+  - 1
   num_classes: 8
-  dropout_rate: 0.5
+  dropout_rate: 0.3
 
 training:
-  batch_size: 32
+  batch_size: 64
   epochs: 50
-  learning_rate: 0.0001
+  learning_rate: 0.0005
   patience: 10
 
 data:
@@ -19,5 +22,7 @@ preprocessing:
   normalize: true
 
 experiment:
-  name: "wafer_multi_label_detection"
-  tags: ["efficientnet", "multi-label"]
+  name: wafer_multi_label_detection
+  tags:
+  - efficientnet
+  - multi-label
